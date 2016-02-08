@@ -27,20 +27,12 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
     String line = null;
    char   data [][]=null;
       line = reader.readLine();
-       data=new char [14][80];
-       int temp[][]=new int [3][3];
-       for (int k=1;k<3;k++){
-       for(int p=0;p<3;p++){
-       temp[k][p]=2;
-       }
-       }
-       for(int m=0;m<3;m++){
-       temp[0][m]=1;
-       }
-       int w= determinant(temp,3);
-       System.out.printf("kkk"+w);
+     data = new char [14][80] ;
+       
+     
+     
  // while((line = reader.readLine())!=null){   System.out.println(line); } 
-    /*      
+          
       for(int i=0;i<14;i++ ){
           line = reader.readLine();
       for (int j=0;j<80;j++){
@@ -49,14 +41,17 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
             System.out.print(data[i][j]);
       }
        System.out.println();
-      }*/
-  /* for(int i=0;i<=14;i++ ){
-      for (int j=0;j<=80;j++){
-        System.out.print(data[i][j]);
-           
       }
-      System.out.println();
-      }*/
+      int temp[][]=transform(data);
+  for(int x=0;x<14;x++ ){
+         
+      for (int y=0;y<80;y++){
+           
+          
+            System.out.print(" "+temp[x][y]);
+      }
+       System.out.println();
+      }
        
         
     
@@ -65,35 +60,32 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
 }
     
     
-    }
-  public static  int determinant(int a[][], int n){
-	int det = 0, sign = 1, p = 0, q = 0;
-
-	if(n==1){
-		det = a[0][0];
-	}
-	else{
-		int b[][] = new int[n-1][n-1];
-		for(int x = 0 ; x < n ; x++){
-			p=0;q=0;
-			for(int i = 1;i < n; i++){
-				for(int j = 0; j < n;j++){
-					if(j != x){
-						b[p][q++] = a[i][j];
-						if(q % (n-1) == 0){
-							p++;
-							q=0;
-						}
-					}
-				}
-			}
-			det = det + a[0][x] *
-                              determinant(b, n-1) *
-                              sign;
-			sign = -sign;
-		}
-	}
-	return det;
-}
+    }  
+    public static int [][] transform( char a[][]){
     
+    int temp[][] = null;
+    temp = new int [14][80];
+    for (int i = 0;i<14;i++){
+    for (int j=0;j<80;j++){
+    if (a[i][j]=='.'){
+    //    System.out.println("doooooooooooooooooooo");
+     temp [i][j]=0;}
+    if (a[i][j]=='#'){
+    
+        temp[i][j]=1;}
+    
+    }
+   
+    }
+   /*  for(int x=0;x<14;x++ ){
+         
+      for (int y=0;y<80;y++){
+           
+          
+            System.out.print(" "+temp[x][y]);
+      }
+       System.out.println();
+      }*/
+    return temp;
+    }
 }
