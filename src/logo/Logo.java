@@ -234,7 +234,7 @@ totalCommend[total]=commend;
     temp2=temp=a[i][j];
     c=0;
     r=0;
-   // System.out.println("current "+j);
+
     for (int y=j;y<80;y++){
       if (a[i][y]==5){continue;}
       if (a[i][y]==9){continue;}
@@ -244,7 +244,7 @@ totalCommend[total]=commend;
        temp=temp+a[i][y];
        if (temp==temp1) {break;}
        else{c=y;}
- //System.out.println("temp  "+temp);
+ 
     }
     
     
@@ -262,7 +262,7 @@ totalCommend[total]=commend;
     else{r=x;}
  }
     if (temp2==temp&temp==a[i][j]){
-       //  System.out.println("here");
+    
        continue;
       
     }
@@ -270,8 +270,8 @@ totalCommend[total]=commend;
     temp2=temp2-1;
     if (temp>temp2){
         boolean dis=false;
-       //   System.out.println("hori "+temp +"dddd  "+ temp2);
-       //System.out.println("Horizntal from "+i+","+j+" To "+i+","+c); 
+      
+       System.out.println("Horzintal from "+i+","+j+" To "+i+","+c); 
     for(int k=j;k<=c;k++){
         if (a[i][k]==7){dis=true;break;}
          if (a[i][k]==5){dis=true;break;}
@@ -282,8 +282,8 @@ totalCommend[total]=commend;
     }
      if (temp==temp2&temp2!=a[i][j]){
          boolean dis=false;
-       //   System.out.println("ramy "+temp +"rammamammdd  "+ temp2);
-       //System.out.println("Horizntal from "+i+","+j+" To "+i+","+c); 
+     
+       System.out.println("Horizintal from "+i+","+j+" To "+i+","+c); 
     for(int k=j;k<=c;k++){
         if (a[i][k]==7){ dis = true; break;}
          if (a[i][k]==5){ dis=true;break;}
@@ -295,7 +295,7 @@ totalCommend[total]=commend;
     }
  if (temp<temp2){
      boolean dis=false;
-       System.out.println("vertical "+temp2+"ddddddwwww"+temp);
+     
        System.out.println("vertical from "+i+","+j+" To "+r+","+j); 
     for(int k=i;k<=r;k++){
           if (a[k][j]==6){dis=true;break;}
