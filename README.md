@@ -1,3 +1,2 @@
 # paintingcode
-this is the code repo
-this is the repo for painting problem
+This is the Master Repo for undergoundTeam-ramy painting problem
