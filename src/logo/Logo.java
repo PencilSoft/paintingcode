@@ -299,8 +299,8 @@ totalCommend[total]=commend;
        System.out.println("vertical from "+i+","+j+" To "+r+","+j); 
     for(int k=i;k<=r;k++){
           if (a[k][j]==6){dis=true;break;}
-           if (a[i][k]==5){dis=true;break;}
-            if (a[i][k]==9){dis=true;break;}
+           if (a[k][j]==5){dis=true;break;}
+            if (a[k][j]==9){dis=true;break;}
              
     a[k][j]=7;
     }
