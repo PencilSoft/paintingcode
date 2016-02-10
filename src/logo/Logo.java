@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.*;
@@ -28,23 +27,41 @@ public class Logo {
     
     static String totalCommend[]= null;
     static int total=-1;
-    
+ static   int row; static int col;
+ static String name;
     public static void main(String[] args) {
         // TODO code application logic here
       Charset charset = Charset.forName("US-ASCII");
-    Path file=Paths.get("./Logo.in");
+      //Set The name for input file here 
+      //Example "logo" or "learn_and_teach","right_angle"
+      ///////////////////////////////////////////////////////////
+                  name="right_angle"; /////////////////
+       //////////////////////////////////
+       /////////////////////////////////
+    Path file=Paths.get("./"+name+".in");
 try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
     String line = null;
    char   data [][]=null;
       line = reader.readLine();
-     data = new char [14][80] ;
+      //for (int k=0;k<line.length();k++){
+       // if(line.charAt(k)!=' ');
+        String RC[] =line.split(" ");
+      //}
+        
+          row = Integer.parseInt(RC[0]);
+          col = Integer.parseInt(RC[1]);
+           int maxdim= (row-1)/2;
+          
+       System.out.println(maxdim);
+    
+     data = new char [row][col] ;
      
-     totalCommend=new String [14*80];
+     totalCommend=new String [row*col];
      
  
-      for(int i=0;i<14;i++ ){
+      for(int i=0;i<row;i++ ){
           line = reader.readLine();
-      for (int j=0;j<80;j++){
+      for (int j=0;j<col;j++){
           data[i][j]=line.charAt(j); 
           
           
@@ -52,35 +69,28 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
    
       }
      
-      int temp[][]=new int [14][80];
+      int temp[][]=new int [row][col];
       temp=transform(data);
-      for (int l=6;l>=1;l--){
+      for (int l=maxdim;l>=1;l--){
     temp =square(temp,l);}
       TempPicOutput(temp);
-      /*
-  for(int x=0;x<14;x++ ){
-         
-      for (int y=0;y<80;y++){
-           
-          
-            System.out.print(" "+temp[x][y]);
-      }
-       System.out.println();
-      }*/
+    
   temp=linearPainting(temp);
   LinearTempPicOutput(temp);
   temp=ZerosquerCheck(temp);
   ZeroSqaureTempPicOutput(temp);
   outputfile();
-  System.out.println("-------------------------------------------------");
+ // System.out.println("-------------------------------------------------");
        
-         for( int x=0;x<14;x++ ){
+         for( int x=0;x<row;x++ ){
          
-      for (  int y=0;y<80;y++){
+      for (  int y=0;y<col;y++){
            
-          
-            System.out.print(" "+temp[x][y]);
+          if (temp[x][y]==0){
+      System.out.print(".");}
+           else{ System.out.print(temp[x][y]);} 
       }
+     
        System.out.println();
       }
     
@@ -93,9 +103,9 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
     public static int [][] transform( char a[][]){
     
     int temp[][] = null;
-    temp = new int [14][80];
-    for (int i = 0;i<14;i++){
-    for (int j=0;j<80;j++){
+    temp = new int [row][col];
+    for (int i = 0;i<row;i++){
+    for (int j=0;j<col;j++){
     if (a[i][j]=='.'){
     
      temp [i][j]=0;}
@@ -111,25 +121,35 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
     }
     public static int  [][] square(int a[][],int dim) throws FileNotFoundException{
         String command[]=new String[a.length];
-         System.out.println("Serach for dimantion "+dim );
+         System.out.println("Serach For  Square  in dimantion of  " +" "+dim );
         int t=0;
     int temp[][]= a;
-   for (int i = 0;i<14;i++){
-    for (int j=0;j<80;j++){
+   for (int i = 0;i<row;i++){
+    for (int j=0;j<col;j++){
         int cell= temp[i][j];
-        if (cell==5){
-           
+        if (cell==5^cell==9){
+         
             continue;
        }
-        if (i-dim>=0&i+dim<14&j-dim>=0&j+dim<80){
+        if (i-dim>=0&i+dim<row&j-dim>=0&j+dim<col){
             t=0;
            //System.out.println(i+" "+j);
         for (int x=i-dim;x<=i+dim;x++){
+            int count=0;
           //  System.out.println(" ");
         for (int y=j-dim;y<=j+dim;y++){
-            if (temp[x][y]==5){break;}
+          //  int tem=temp[x][y];
+            if(temp[x][y]==5){ 
+                if (count>=(2*dim)){ break;}
+                else {
+                count=+1;}}
+            
+            if(temp[x][y]==9){break;}
+           //if (temp[x][y]==5){break;}
             if(temp[x][y]==1){
-        t = t+temp[x][y];}
+        t = t+1;}
+            
+            
          
         //      System.out.print(" "+temp[x][y]);
      
@@ -138,7 +158,7 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
          //System.out.println(" ");
       
         if (t==(4*(dim*dim))+(4*dim)+1) {
-         //   System.out.println("Square operation of dimn"+  dim +"center on"+i+","+j);
+          System.out.println("Square operation of dimn"+  dim +"center on"+i+","+j);
          SquarePainting(i,j,dim);
          
          for (int x=i-dim;x<=i+dim;x++){
@@ -151,8 +171,30 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
         }
         }
         
+        }
+        /////////////////////////////////////////
+       // t>(4*(dim*dim))+(2*dim)+1
+        else { if (false) {
+          System.out.println("Square with Earising operations operation of dimn"+  dim +"center on"+i+","+j);
+         SquarePainting(i,j,dim);
+         
+         for (int x=i-dim;x<=i+dim;x++){
+             
+             
+        for (int y=j-dim;y<=j+dim;y++){
+         if(temp[x][y]==1){
+         temp[x][y]=5;
+            if (x==i&y==j){temp[x][y]=9;}
+         }
+         else{if(temp[x][y]==0)temp[x][y]=3;}
+        }
+        }
+       temp=eraseing(temp); 
+        }
         
         }
+        
+        
         }
    
     }
@@ -168,8 +210,9 @@ try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
         	File file =new File("FinalSquareComends.txt");
                 if(!file.exists()){
     			file.createNewFile();}
+                
             String commend="PAINT_SQUARE"+" "+i+" "+j+" "+ d;
-                        FileWriter fileWritter = new FileWriter(file.getName(),true);
+                FileWriter fileWritter = new FileWriter(file.getName(),true);
     	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
     	        bufferWritter.write(commend);
                 bufferWritter.newLine();
@@ -193,9 +236,9 @@ totalCommend[total]=commend;
                         FileWriter fileWritter = new FileWriter(file.getName(),false);
     	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
         
-          for(int x=0;x<14;x++ ){
+          for(int x=0;x<row;x++ ){
          
-      for (int y=0;y<80;y++){
+      for (int y=0;y<col;y++){
            
             bufferWritter.write(" "+a[x][y]);
            
@@ -224,83 +267,96 @@ totalCommend[total]=commend;
  public  static int [][] linearPainting(int a[][]) throws FileNotFoundException{
  int temp=0,temp1=0,temp2=0,temp3=0;
  int r=0,c=0;
- for (int i=0;i<14;i++){
-  //System.out.println("currenjjjjjjjjjjt"+i);
- for (int j=0;j<80;j++){
+ for (int i=0;i<row;i++){
+ 
+ for (int j=0;j<col;j++){
+    
+     
+   
      if (a[i][j]==5){continue;}
       if (a[i][j]==9){continue;}
-        if (a[i][j]==6){continue;}
-         if (a[i][j]==7){continue;}
+       if (a[i][j]==6){continue;}
+       if (a[i][j]==7){continue;}
+       if(a[i][j]==0){continue; }
     temp2=temp=a[i][j];
     c=0;
     r=0;
 
-    for (int y=j;y<80;y++){
-      if (a[i][y]==5){continue;}
-      if (a[i][y]==9){continue;}
-        if (a[i][y]==6){continue;}
-           if (a[i][y]==7){continue;}
+    for (int y=j;y<col;y++){
+       
+  
+      if(a[i][y]==1^a[i][y]==7){
        temp1=temp;
+        c=y;
+   
        temp=temp+a[i][y];
-       if (temp==temp1) {break;}
-       else{c=y;}
- 
+       
+      
+    }
+  
+      else{
+        
+       break;}
+     
     }
     
     
     
     
-    for(int x=i;x<14;x++){
-         if (a[x][j]==5){continue;}
-      if (a[x][j]==9){continue;}
-        if (a[x][j]==6){continue;}
-         if (a[x][j]==7){continue;}
+    for(int x=i;x<row;x++){
+         
+      
+         if(a[x][j]==1^a[x][j]==6){
     temp3=temp2;
     temp2=temp2+a[x][j];
+ r=x;   
+  
     
-    if (temp2==temp3){break;}
-    else{r=x;}
  }
+    else{break;}
+    }
     if (temp2==temp&temp==a[i][j]){
     
        continue;
       
     }
-    temp=temp-1;
-    temp2=temp2-1;
+    temp=temp;
+    temp2=temp2;
     if (temp>temp2){
-        boolean dis=false;
       
-       System.out.println("Horzintal from "+i+","+j+" To "+i+","+c); 
+      
+       System.out.println("Horzintal Painting from "+i+","+j+" To "+i+","+c); 
     for(int k=j;k<=c;k++){
-        if (a[i][k]==7){dis=true;break;}
-         if (a[i][k]==5){dis=true;break;}
-          if (a[i][k]==9){dis=true;break;}
+    
     a[i][k]=6;
     }
-      if(!dis){  LinearPainting(i,j,i,c);}
+      LinearPainting(i,j,i,c);
     }
-     if (temp==temp2&temp2!=a[i][j]){
-         boolean dis=false;
+     if (temp==temp2&temp2!=a[i][j]&j<c){
      
-       System.out.println("Horizintal from "+i+","+j+" To "+i+","+c); 
+     
+       System.out.println("Horizintal Choose "+i+","+j+" To "+i+","+c); 
     for(int k=j;k<=c;k++){
-        if (a[i][k]==7){ dis = true; break;}
-         if (a[i][k]==5){ dis=true;break;}
-          if (a[i][k]==9){ dis =true;break;}
+     
            
-    a[i][k]=6;
+       a[i][k]=6;
     }
-    if(!dis){  LinearPainting(i,j,i,c);}
+   
+     
+        LinearPainting(i,j,i,c);
+    
+        
+        
+        
+        
+        
     }
  if (temp<temp2){
      boolean dis=false;
      
-       System.out.println("vertical from "+i+","+j+" To "+r+","+j); 
+       System.out.println("vertical  Painting from "+i+","+j+" To "+r+","+j); 
     for(int k=i;k<=r;k++){
-          if (a[k][j]==6){dis=true;break;}
-           if (a[k][j]==5){dis=true;break;}
-            if (a[k][j]==9){dis=true;break;}
+       
              
     a[k][j]=7;
     }
@@ -323,9 +379,9 @@ totalCommend[total]=commend;
                         FileWriter fileWritter = new FileWriter(file.getName(),false);
     	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
         
-          for(int x=0;x<14;x++ ){
+          for(int x=0;x<row;x++ ){
          
-      for (int y=0;y<80;y++){
+      for (int y=0;y<col;y++){
            
             bufferWritter.write(" "+a[x][y]);
            
@@ -351,7 +407,7 @@ totalCommend[total]=commend;
         	File file =new File("FinalLinearComends.txt");
                 if(!file.exists()){
     			file.createNewFile();}
-                  String commend="PAINT_LINE "+" "+i1+" "+j1+" "+ i2+" "+j2;
+                  String commend="PAINT_LINE "+" "+i1+" "+j1+"  "+ i2+" "+j2;
                         FileWriter fileWritter = new FileWriter(file.getName(),true);
     	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
               
@@ -376,9 +432,9 @@ totalCommend[total]=commend;
     }
      public static int [][] ZerosquerCheck(int a[][]) throws FileNotFoundException
      {
-       for(int x=0;x<14;x++ ){
+       for(int x=0;x<row;x++ ){
          
-      for (int y=0;y<80;y++){
+      for (int y=0;y<col;y++){
      if (a[x][y]==1){
          
          a[x][y]=8;
@@ -397,9 +453,9 @@ totalCommend[total]=commend;
                         FileWriter fileWritter = new FileWriter(file.getName(),false);
     	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
         
-          for(int x=0;x<14;x++ ){
+          for(int x=0;x<row;x++ ){
          
-      for (int y=0;y<80;y++){
+      for (int y=0;y<col;y++){
            
             bufferWritter.write(" "+a[x][y]);
            
@@ -421,11 +477,11 @@ totalCommend[total]=commend;
     }
        public static void outputfile(){
           
-       
+       total=total+1;
            
        System.out.println("this is toaral"+total);
          try{
-       File file =new File("FinalOutputfile.txt");
+       File file =new File(name+"Output.txt");
                 if(!file.exists()){
     			file.createNewFile();}
                         FileWriter fileWritter = new FileWriter(file.getName(),true);
@@ -458,4 +514,21 @@ totalCommend[total]=commend;
        }
 
 
+public static int [][] eraseing(int a[][]){
+        for (int i =0;i<row;i++){
+
+for (int j=0;j<col;j++){
+if (a[i][j]==3){
+    a[i][j]=0;
+ String commend ="ERASE_CELL "+" "+i+" "+j;
+  total=total+1;
+totalCommend[total]=commend;
+                
+}
+
+}
+}
+
+return a;
+}
 }
